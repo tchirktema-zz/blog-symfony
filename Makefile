@@ -8,7 +8,7 @@ it:
 
 tests: vendor
 	$(MAKE) prepare-test
-	sh vendor/bin/simple-phpunit
+	vendor/bin/simple-phpunit
 
 analyze: vendor
 	yarn audit
