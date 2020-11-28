@@ -36,7 +36,7 @@ Suivez ce processus afin de proposer une `pull request` qui respecte les bonnes 
 1. [Fork](http://help.github.com/fork-a-repo/) le projet, clonez votre `fork` et configurez les `remotes`:
    ```
    git clone https://github.com/<your-username>/<repo-name>
-   cd iletaitunefoisundev
+   cd blog-symfony
    git remote add upstream https://github.com/tchirktema/blog-symfony
    ```
 2. Si vous avez clonez le projet il y a quelques temps, pensez à récupérer les dernières modifications depuis `upstream`:
@@ -56,7 +56,7 @@ Suivez ce processus afin de proposer une `pull request` qui respecte les bonnes 
      git checkout -b feature/<feature-name>
      ```
    - Pour une nouvelle correction :
-     ` git checkout production git checkout -b hotfix/<feature-name> `
+     `git checkout production git checkout -b hotfix/<feature-name>`
      _Vous pouvez aussi utiliser [git-flow](https://danielkummer.github.io/git-flow-cheatsheet/index.fr_FR.html) pour simplifiez la gestion de vos branches :_
    - Pour une nouvelle fonctionnalité ou modification :
      ```
