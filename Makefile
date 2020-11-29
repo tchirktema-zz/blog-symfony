@@ -6,6 +6,11 @@ it:
 	$(MAKE) prepare-dev
 	$(MAKE) analyze
 
+.PHONY: translations
+translations:
+	php bin/console translation:update --force fr
+
+.PHONY: tests
 tests: vendor
 	$(MAKE) prepare-test
 	vendor/bin/simple-phpunit
@@ -17,7 +22,7 @@ analyze: vendor
 	php vendor/bin/phpcs
 
 prepare-dev: bin
-	composer install --no-progress --no-suggest --prefer-dist
+	composer install --no-progress  --prefer-dist
 	php bin/console cache:clear --env=dev
 	php bin/console doctrine:database:drop --if-exists -f --env=dev
 	php bin/console doctrine:database:create --env=dev
@@ -27,7 +32,7 @@ prepare-dev: bin
 prepare-test: bin
 	yarn install
 	yarn run dev
-	composer install --no-progress --no-suggest --prefer-dist
+	composer install --no-progress  --prefer-dist
 	php bin/console cache:clear --env=test
 	php bin/console doctrine:database:drop --if-exists -f --env=test
 	php bin/console doctrine:database:create --env=test
