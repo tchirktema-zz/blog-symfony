@@ -113,7 +113,6 @@
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-code" />
       <path value="$PROJECT_DIR$/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/vendor/twig/extra-bundle" />
-      <path value="$PROJECT_DIR$/vendor/pcov/clobber" />
       <path value="$PROJECT_DIR$/vendor/dama/doctrine-test-bundle" />
     </include_path>
   </component>
