@@ -14,4 +14,4 @@ Veuillez prendre un moment pour lire le [guide sur la contribution](CONTRIBUTING
 
 ## À propos
 
-iletaitunefoisun.dev a été conçu initialement par [Josue Tchirktema](https://github.com/tchirktema). Si vous avez le moindre question, contactez [Josue Tchirktema](https://tchirktema.github.io)
+blog-symfony a été conçu initialement par [Josue Tchirktema](https://github.com/tchirktema). Si vous avez le moindre question, contactez [Josue Tchirktema](https://tchirktema.github.io)
