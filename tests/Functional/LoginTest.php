@@ -15,8 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class LoginTest extends WebTestCase
 {
-
-    public function testIfLoginIsSuccessful() : void
+    /**
+     * @dataProvider provideValidCredentials
+     * @param string $email
+     * @param string $password
+     */
+    public function testIfLoginIsSuccessful(string $email, string $password) : void
     {
         $client = static::createClient();
         
@@ -29,8 +33,8 @@ class LoginTest extends WebTestCase
         );
 
         $form = $crawler->filter("form[name=login]")->form([
-            "email" => 'email@email.com',
-            "password" => 'password'
+            "email" => $email,
+            "password" => $password
         ]);
         
         $client->submit($form);
@@ -95,13 +99,40 @@ class LoginTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $client->followRedirect();
-//        echo $client->getResponse()->getContent();
-        $this->assertSelectorTextContains('form[name=login] > div.alert', 'Jeton CSRF invalide.');
+        $this->assertSelectorTextContains('form[name=login] > div.alert', 'Invalid CSRF token.');
+    }
+
+    public function testIfAccountIsSuspend(): void
+    {
+        $client = static::createClient();
+        /** @var RouterInterface $router */
+        $router = $client->getContainer()->get('router');
+        $crawler = $client->request(
+            Request::METHOD_GET,
+            $router->generate('security_login')
+        );
+        $form = $crawler->filter("form[name=login]")->form([
+            "email" => 'user2@email.com',
+            "password" => 'password'
+        ]);
+        $client->submit($form);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+        $client->followRedirect();
+        $this->assertSelectorTextContains(
+            "form[name=login] > div.alert",
+            "Your account is suspended."
+        );
     }
 
     public function provideInvalidCredentials(): iterable
     {
         yield ["fail@email.com","password","Email could not be found."];
-        yield ["email@email.com","fail","Identifiants invalides."];
+        yield ["admin@email.com","fail","Invalid credentials."];
+    }
+
+    public function provideValidCredentials(): iterable
+    {
+        yield ["admin@email.com","password"];
+        yield ["user@email.com","password"];
     }
 }
