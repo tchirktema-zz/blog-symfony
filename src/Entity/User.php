@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,6 +24,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message="Email is invalid")
+     * @Assert\NotBlank(message="Email can't be blank")
      */
     private string $email;
 
@@ -39,8 +42,31 @@ class User implements UserInterface
 
     /**
      * @var string
+     * @Assert\NotBlank(message="password can't be blank")
+     * @Assert\Length(min="6")
      */
     private ?string $plainPassword = null;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="nickname can't be blank")
+     */
+    private string $nickname;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private \DateTimeImmutable $registedAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?\DateTimeImmutable $suspendAt = null;
+
+    public function __construct()
+    {
+        $this->registedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -102,7 +128,7 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
     public function getPlainPassword():string
     {
         return $this->plainPassword;
@@ -129,5 +155,46 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
+    }
+
+    public function getNickname(): ?string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(string $nickname): self
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function getRegistedAt(): ?\DateTimeImmutable
+    {
+        return $this->registedAt;
+    }
+
+    public function setRegistedAt(\DateTimeImmutable $registedAt): self
+    {
+        $this->registedAt = $registedAt;
+
+        return $this;
+    }
+
+    public function getSuspendAt(): ?\DateTimeImmutable
+    {
+        return $this->suspendAt;
+    }
+
+    public function setSuspendAt(?\DateTimeImmutable $suspendAt): self
+    {
+        $this->suspendAt = $suspendAt;
+
+        return $this;
+    }
+
+    public function isSuspended(): bool
+    {
+        return  $this->suspendAt !== null;
     }
 }
